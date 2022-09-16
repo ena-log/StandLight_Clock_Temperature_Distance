@@ -5,6 +5,7 @@ Service::Service(View *viewer)
     view = viewer;
     lightState = LIGHT_OFF;
     bDistanceLight = false;
+    offCount = 0;
 }
 
 Service::~Service()
@@ -102,16 +103,21 @@ void Service::updateState(std::string strState)
 
 void Service::updateDistance(int distance)
 {
-    printf("distance : %d\n", distance);
-    
     if(distance < 0)    //light off
-    {
-        bDistanceLight = false;
-        view->setState(LIGHT_OFF);
+    {   
+        offCount ++;
+        if (offCount >= 10)
+        {
+            bDistanceLight = false;
+            view->setState(LIGHT_OFF);
+        }
     }
     else                //light on
     {
+        offCount = 0;
         bDistanceLight = true;
         view->setState(lightState);
     }
+
+    printf("distance : %d, offCount : %d\n", distance, offCount);
 }
