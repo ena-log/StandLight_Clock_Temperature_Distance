@@ -4,6 +4,7 @@ Service::Service(View *viewer)
 {
     view = viewer;
     lightState = LIGHT_OFF;
+    bDistanceLight = false;
 }
 
 Service::~Service()
@@ -29,7 +30,12 @@ void Service::updateState(std::string strState)
             if (strState == "powerButton") {
                 lightState = LIGHT_OFF;
             }
-            view->setState(lightState);
+            if(bDistanceLight){     //거리 범위 안
+                view->setState(lightState);
+            }
+            else{
+                view->setState(LIGHT_OFF);
+            }
         break;
 
         case LIGHT_2:
@@ -39,7 +45,12 @@ void Service::updateState(std::string strState)
             if (strState == "powerButton") {
                 lightState = LIGHT_OFF;
             }
-            view->setState(lightState);
+            if(bDistanceLight){     //거리 범위 안
+                view->setState(lightState);
+            }
+            else{
+                view->setState(LIGHT_OFF);
+            }
         break;
 
         case LIGHT_3:
@@ -49,7 +60,12 @@ void Service::updateState(std::string strState)
             if (strState == "powerButton") {
                 lightState = LIGHT_OFF;
             }
-            view->setState(lightState);
+            if(bDistanceLight){     //거리 범위 안
+                view->setState(lightState);
+            }
+            else{
+                view->setState(LIGHT_OFF);
+            }
         break;
 
         case LIGHT_4:
@@ -59,7 +75,12 @@ void Service::updateState(std::string strState)
             if (strState == "powerButton") {
                 lightState = LIGHT_OFF;
             }
-            view->setState(lightState);
+            if(bDistanceLight){     //거리 범위 안
+                view->setState(lightState);
+            }
+            else{
+                view->setState(LIGHT_OFF);
+            }
         break;
 
         case LIGHT_5:
@@ -69,7 +90,28 @@ void Service::updateState(std::string strState)
             if (strState == "powerButton") {
                 lightState = LIGHT_OFF;
             }
-            view->setState(lightState);
+            if(bDistanceLight){     //거리 범위 안
+                view->setState(lightState);
+            }
+            else{
+                view->setState(LIGHT_OFF);
+            }
         break;
+    }
+}
+
+void Service::updateDistance(int distance)
+{
+    printf("distance : %d\n", distance);
+    
+    if(distance < 0)    //light off
+    {
+        bDistanceLight = false;
+        view->setState(LIGHT_OFF);
+    }
+    else                //light on
+    {
+        bDistanceLight = true;
+        view->setState(lightState);
     }
 }
